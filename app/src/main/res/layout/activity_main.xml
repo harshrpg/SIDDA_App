@@ -24,12 +24,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <LinearLayout
+            android:id="@+id/imageHolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_theater_masks_new_two"
-            android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_theater_masks_new_two"
+                android:layout_weight="1"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/textView1"
@@ -71,7 +80,8 @@
             android:paddingLeft="30dp"
             android:paddingTop="15dp"
             android:paddingRight="30dp"
-            android:paddingBottom="15dp">
+            android:paddingBottom="15dp"
+            android:onClick="openPersonna">
 
             <TextView
                 android:layout_width="wrap_content"

@@ -13,4 +13,5 @@
         are here to provide you with best recommendations</string>
     <string name="get_started_button">Get Started</string>
     <string name="get_started_arrow">&#xf061;</string>
+    <string name="title_activity_personna">PersonnaActivity</string>
 </resources>
