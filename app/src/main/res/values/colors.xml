@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimaryDark">#FAFAFA</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="whiteSmoke">#BDBDBD</color>
+    <color name="textColorPrimary">#455A64</color>
+    <color name="background">#FFFFFF</color>
+    <color name="personnaColor">#546E7A</color>
+    <color name="black">#455a64</color>
+    <color name="dark_grey">#455A64</color>
+    <color name="red">#f44336</color>
+    <color name="button_pressed">#0D47A1</color>
+    <color name="button_focused">#90CAF9</color>
+    <color name="button_default">#2196F3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="secondary_text">#90A4AE</color>
+</resources>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">In the flow</string>
+    <string name="theater_masks_info">Info for the personna page</string>
+    <string name="choose_personna">Lets begin by first selecting your personna!</string>
+    <string name="energy_info">Image intuitive for energy</string>
+    <string name="energetic">Energetic</string>
+    <string name="relaxed">Relaxed</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_maps2">Map</string>
+    <string name="options_personna">Energetic or Relaxed?</string>
+    <string name="part_community">With the help of Science and Intelligent Algorithms, we
+        are here to provide you with best recommendations</string>
+    <string name="get_started_button">Get Started</string>
+    <string name="get_started_arrow">&#xf061;</string>
+</resources>
