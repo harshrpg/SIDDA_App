@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.transition.Slide;
@@ -32,7 +33,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Step 1. Check if the user has a network connection
         if (isNetworkAvailable()){
-            Toast.makeText(this,"Internet is Connected",Toast.LENGTH_LONG).show();
+            // Step 2. If the internet connection is on and stable
+            // Check shared preferences for the app and display splash screen is needed else move
+            // to the final map
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences
+                    ("App_Pref",Context.MODE_PRIVATE);
+            // Always maintain private mode for in house checks
+            if (sharedPreferences.getBoolean("activity_started",false)){
+                Intent intent = new Intent(this,MapsActivity.class);
+                startActivity(intent);
+            } else {
+                SharedPreferences.Editor ed = sharedPreferences.edit();
+                ed.putBoolean("activity_started", true);
+                ed.commit();
+            }
         } else {
             // If network not present show error
             Intent intent = new Intent(this, ErroActivity.class);
