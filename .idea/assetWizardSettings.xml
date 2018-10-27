@@ -63,11 +63,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="708" />
-                            <entry key="outputName" value="ic_theater_masks_new_two" />
+                            <entry key="height" value="125" />
+                            <entry key="outputName" value="ic_relax" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\UCD\COMP47570\SSIDA\App\SVG\theater-masks_new_two.svg" />
-                            <entry key="width" value="759" />
+                            <entry key="sourceFile" value="C:\UCD\COMP47570\SSIDA\App\SVG\noun_Hammock_548209.svg" />
+                            <entry key="width" value="100" />
                           </map>
                         </option>
                       </PersistentState>

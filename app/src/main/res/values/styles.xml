@@ -17,7 +17,7 @@
         <item name="android:windowActivityTransitions">true</item>
 
         <!-- specify enter and exit transitions -->
-        <item name="android:windowEnterTransition">@transition/activity_fade</item>
+        <item name="android:windowEnterTransition">@transition/activity_explode</item>
         <item name="android:windowExitTransition">@transition/activity_slide</item>
     </style>
     <style name="Material" parent="Theme.MaterialComponents">

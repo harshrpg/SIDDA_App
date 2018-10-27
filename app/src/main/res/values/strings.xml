@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">In the flow</string>
-    <string name="theater_masks_info">Info for the personna page</string>
-    <string name="choose_personna">Lets begin by first selecting your personna!</string>
+    <string name="theater_masks_info">Info for the persona page</string>
+    <string name="choose_personna">Let us know the kind of place you are looking
+        for</string>
     <string name="energy_info">Image intuitive for energy</string>
     <string name="energetic">Energetic</string>
     <string name="relaxed">Relaxed</string>
@@ -11,6 +12,8 @@
     <string name="options_personna">Energetic or Relaxed?</string>
     <string name="part_community">With the help of Science and Intelligent Algorithms, we
         are here to provide you with best recommendations</string>
+    <string name="personna_flag_reason">With knowing your choice, the app will be able to
+        filter only the best recommendations for you. But you can always change this later</string>
     <string name="get_started_button">Get Started</string>
     <string name="open_settings">Open Settings</string>
     <string name="exit">Exit</string>
@@ -21,4 +24,8 @@
     <string name="refresh_icon">&#xf2f1;</string>
     <string name="title_activity_personna">PersonnaActivity</string>
     <string name="error_internet">Can\'t connect to internet</string>
+    <string name="energetic_selection">Energetic</string>
+    <string name="relaxed_selection">Relaxing</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
 </resources>

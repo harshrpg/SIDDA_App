@@ -2,6 +2,7 @@ package com.example.harsh.intheflow;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.transition.Explode;
 import android.transition.Fade;
 
 public class PersonnaActivity extends Activity {
@@ -14,8 +15,8 @@ public class PersonnaActivity extends Activity {
     }
 
     private void setupWindowAnimations() {
-        Fade fade = new Fade();
-        fade.setDuration(1000);
+        Explode fade = new Explode();
+        fade.setDuration(200);
         getWindow().setEnterTransition(fade);
     }
 
