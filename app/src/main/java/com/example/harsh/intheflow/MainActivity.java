@@ -1,8 +1,12 @@
 package com.example.harsh.intheflow;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.transition.Slide;
 import android.transition.Transition;
 import androidx.transition.TransitionInflater;
@@ -20,12 +24,34 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String ERROR_CONNECTIVITY = "Internet";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        setupWindowAnimations();
+        // Step 1. Check if the user has a network connection
+        if (isNetworkAvailable()){
+            Toast.makeText(this,"Internet is Connected",Toast.LENGTH_LONG).show();
+        } else {
+            // If network not present show error
+            Intent intent = new Intent(this, ErroActivity.class);
+            intent.putExtra(ERROR_CONNECTIVITY,"No Internet Connection");
+            startActivity(intent);
+        }
 
+    }
+
+
+    /**
+     * This function checks for a valid internet connection
+     * needs a permission for ACCESS_NETWORK_STATE from manifest
+     * @return boolean to represent whether user has a network or not
+     */
+    private boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     private void setupWindowAnimations() {
         Toast.makeText(this, "Setting up",Toast.LENGTH_LONG).show();

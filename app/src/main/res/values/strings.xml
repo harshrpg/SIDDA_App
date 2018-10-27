@@ -12,6 +12,13 @@
     <string name="part_community">With the help of Science and Intelligent Algorithms, we
         are here to provide you with best recommendations</string>
     <string name="get_started_button">Get Started</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="exit">Exit</string>
+    <string name="try_again">Try Again</string>
     <string name="get_started_arrow">&#xf061;</string>
+    <string name="open_settings_icon">&#xf0ad;</string>
+    <string name="exit_icon">&#xf2f5;</string>
+    <string name="refresh_icon">&#xf2f1;</string>
     <string name="title_activity_personna">PersonnaActivity</string>
+    <string name="error_internet">Can\'t connect to internet</string>
 </resources>

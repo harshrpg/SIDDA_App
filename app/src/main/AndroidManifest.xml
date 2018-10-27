@@ -44,7 +44,8 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".PersonnaActivity"
-            android:label="@string/title_activity_personna"></activity>
+            android:label="@string/title_activity_personna" />
+        <activity android:name=".ErroActivity"></activity>
     </application>
 
 </manifest>
