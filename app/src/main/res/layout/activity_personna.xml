@@ -41,6 +41,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/energetic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -50,9 +51,12 @@
                 android:padding="25dp"
                 android:text="@string/energetic_selection"
                 android:textColor="@color/dark_grey"
-                android:textSize="16sp" />
+                android:tag="energetic"
+                android:onClick="setOptions"
+                android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/relaxed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -62,6 +66,8 @@
                 android:padding="25dp"
                 android:text="@string/relaxed_selection"
                 android:textColor="@color/dark_grey"
+                android:tag="relaxed"
+                android:onClick="setOptions"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -95,6 +101,7 @@
                 android:layout_weight="2"
                 android:background="@drawable/stroke_button"
                 android:gravity="center"
+                android:tag="all"
                 android:onClick="skipToMap"
                 android:orientation="horizontal"
                 android:visibility="visible"
@@ -118,6 +125,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="2"
                 android:background="@drawable/button"
+                android:backgroundTint="@color/disabled"
                 android:gravity="center"
                 android:onClick="setChoice"
                 android:orientation="horizontal"

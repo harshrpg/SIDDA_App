@@ -17,4 +17,5 @@
     <color name="secondary_text">#90A4AE</color>
     <color name="green_dense">#00897B</color>
     <color name="yellow">#FDD835</color>
+    <color name="disabled">#E0E0E0</color>
 </resources>

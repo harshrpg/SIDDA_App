@@ -4,6 +4,7 @@ package com.example.harsh.intheflow;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.transition.Explode;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,11 +24,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        setupWindowAnimations();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+    }
+
+    private void setupWindowAnimations() {
+        Explode fade = new Explode();
+        fade.setDuration(200);
+        getWindow().setEnterTransition(fade);
     }
 
 
@@ -48,5 +57,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.finish();
+        System.exit(0);
+        super.onDestroy();
     }
 }

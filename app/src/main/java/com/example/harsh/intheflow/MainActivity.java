@@ -67,30 +67,12 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    private void setupWindowAnimations() {
-        Toast.makeText(this, "Setting up",Toast.LENGTH_LONG).show();
-        Slide slide = new Slide();
-        slide.setDuration(1000);
-        getWindow().setExitTransition(slide);
-    }
 
 
     public void openPersonna(View view){
-        Snackbar.make(view,"Button clicked",Snackbar.LENGTH_LONG).show();
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, PersonnaActivity.class);
         startActivity(intent,options.toBundle());
-    }
-    /**
-    * Opens the map on click of the button
-    * */
-    public void openMap(View view){
-        // Testing if the method work
-        Snackbar.make(view,"Button clicked",Snackbar.LENGTH_LONG).show();
-        // Make an intent to open another activity
-
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-
+        finish();
     }
 }
