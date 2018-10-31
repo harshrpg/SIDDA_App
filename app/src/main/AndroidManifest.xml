@@ -8,6 +8,9 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -45,7 +48,12 @@
         <activity
             android:name=".PersonnaActivity"
             android:label="@string/title_activity_personna" />
-        <activity android:name=".ErroActivity"></activity>
+        <activity android:name=".ErroActivity" />
+
+        <service
+            android:name=".SensorMonitorService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

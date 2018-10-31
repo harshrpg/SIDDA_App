@@ -1,5 +1,6 @@
 package com.example.harsh.intheflow;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +27,14 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
     private final String ERROR_CONNECTIVITY = "Internet";
+    public static Activity mainActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity = this;
         // Step 1. Check if the user has a network connection
         if (isNetworkAvailable()){
             // Step 2. If the internet connection is on and stable
@@ -41,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             // Always maintain private mode for in house checks
             if (sharedPreferences.getBoolean("activity_started",false)){
                 Intent intent = new Intent(this,MapsActivity.class);
+                this.finish();
                 startActivity(intent);
+
             } else {
                 SharedPreferences.Editor ed = sharedPreferences.edit();
                 ed.putBoolean("activity_started", true);
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public void openPersonna(View view){
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, PersonnaActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent,options.toBundle());
-        finish();
     }
 }

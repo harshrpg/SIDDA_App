@@ -35,10 +35,13 @@ public class PersonnaActivity extends FragmentActivity {
     private final String FILTER_FLAG = "FLAG";
     // A viewmodel to hold the UI data
     public PersonnaViewModel mViewModel;
+
+    public static Activity personnaActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personna);
+        personnaActivity = this;
         circle_check = this.getResources().getDrawable(R.drawable
                 .ic_check_circle_black_24dp);
         ic_energy = this.getResources().getDrawable(R.drawable.ic_energy);
@@ -87,7 +90,6 @@ public class PersonnaActivity extends FragmentActivity {
         mViewModel.setFlag(null);
         Intent intent = new Intent(this,MapsActivity.class);
         startActivity(intent);
-        finish();
     }
 
     public void setChoice(View view){
@@ -95,18 +97,6 @@ public class PersonnaActivity extends FragmentActivity {
             Intent intent = new Intent(this,MapsActivity.class);
             intent.putExtra(FILTER_FLAG,mViewModel.getFlag());
             startActivity(intent);
-            finish();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 }
