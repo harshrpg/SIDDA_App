@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-places:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     implementation 'androidx.fragment:fragment:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.jakewharton:butterknife:8.8.1'

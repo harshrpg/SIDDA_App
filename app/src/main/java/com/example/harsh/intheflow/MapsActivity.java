@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.transition.Explode;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -37,11 +39,19 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
+import cz.msebera.android.httpclient.Header;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -67,7 +77,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // The geographical location where the device is currently located. The last known location
     // provided by the fused location provider
     private Location mLastKnownLocation;
+    protected JSONArray getMapData;
+    // Get the AsyncHttpClient to get the data from the API
+    private final AsyncHttpClient client = new AsyncHttpClient();
+    private static final String GET_URL  = "https://ssida.herokuapp.com/getmapdata";
 
+    private static final String TAG = MapsActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if(report.areAllPermissionsGranted()){
                             mLocationPermissionGranted = true;
+                            getDeviceLocation();
                             startService(new Intent(getApplicationContext(), SensorMonitorService.class));
                         }
 
@@ -151,8 +167,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(getApplicationContext(), "Error Occured in requesting " +
-                                "permissions",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(), "Error Occured in requesting " +
+//                                "permissions",Toast.LENGTH_LONG).show();
+                        Log.e(TAG,"Error occured in requesting location");
                     }
                 })
                 .onSameThread().check();
@@ -229,6 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()),DEFAULT_ZOOM
                             ));
+                            // Run the getData function here
                             updateLocationUI();
                         } else {
                             Log.d("LocationResult","Current Location is null. Using defaults");
@@ -250,6 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         try{
             if (mLocationPermissionGranted){
+
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
             } else {
@@ -261,6 +280,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (SecurityException e){
             Log.e("Exception: %s",e.getMessage());
         }
+    }
+
+    /**
+     * Checks the api on location change and updates the data
+     * @return
+     */
+    public void getLiveData(View view) throws JSONException {
+        // Create a new array list
+        ArrayList<WeightedLatLng> list = new ArrayList<>();
+
+        client.get(GET_URL, new AsyncHttpResponseHandler()  {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    getMapData = new JSONArray(new String(responseBody));
+                } catch (JSONException e){
+                    Log.i("StatusOfMapData","JSON error occurred");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.i(TAG,"error occurred");
+            }
+        });
+
+        if (getMapData != null){
+            for (int i=0; i < getMapData.length(); i++){
+                JSONObject object = getMapData.getJSONObject(i);
+                JSONObject fields = object.getJSONObject("fields");
+                double lat = fields.getDouble("latitude");
+                double lng = fields.getDouble("longitude");
+                double intensity = fields.getDouble("score");
+                list.add(new WeightedLatLng(new LatLng(lat,lng),intensity));
+            }
+        }
+        // Call this method as an internal call and return the list for generating the heatmap
     }
 
     @Override

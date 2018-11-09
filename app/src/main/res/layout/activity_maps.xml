@@ -39,5 +39,11 @@
             android:gravity="center"
             android:textColor="@color/dark_grey"
             android:theme="@style/MyCheckBox"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="get data"
+            android:textColor="@color/white"
+            android:onClick="getLiveData"/>
     </LinearLayout>
 </RelativeLayout>
