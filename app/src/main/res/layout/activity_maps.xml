@@ -15,35 +15,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:backgroundTint="@color/colorPrimary"
-        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/green_dense"
+        android:background="@color/green_dense"
         android:gravity="center"
         android:weightSum="2"
         android:elevation="10dp"
         android:padding="20dp">
         <CheckBox
+            android:id="@+id/Energetic_CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/energetic"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/dark_grey"
-            android:theme="@style/MyCheckBox"/>
+            android:textColor="@color/white"
+            android:theme="@style/MyCheckBox"
+            android:checked="true"/>
         <CheckBox
+            android:id="@+id/Relaxed_CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/relaxed"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/dark_grey"
-            android:theme="@style/MyCheckBox"/>
+            android:textColor="@color/white"
+            android:theme="@style/MyCheckBox"
+            android:checked="true"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="get data"
-            android:textColor="@color/white"
-            android:onClick="getLiveData"/>
+            android:fontFamily="@font/fontawesomesolid"
+            android:background="@color/green_dense"
+            android:backgroundTint="@color/green_dense"
+            android:textSize="35dp"
+            android:text="@string/more_options"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>
