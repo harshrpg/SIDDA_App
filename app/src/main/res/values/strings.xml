@@ -22,10 +22,14 @@
     <string name="open_settings_icon">&#xf0ad;</string>
     <string name="exit_icon">&#xf2f5;</string>
     <string name="refresh_icon">&#xf2f1;</string>
+    <string name="more_options">&#xf150;</string>
+    <string name="whats_this_icon">&#xf128;</string>
     <string name="title_activity_personna">PersonnaActivity</string>
     <string name="error_internet">Can\'t connect to internet</string>
     <string name="energetic_selection">Energetic</string>
     <string name="relaxed_selection">Relaxing</string>
+    <string name="share_data">Share my data</string>
+    <string name="whats_this">Know More</string>
     <string name="skip">Skip</string>
     <string name="next">Next</string>
 </resources>

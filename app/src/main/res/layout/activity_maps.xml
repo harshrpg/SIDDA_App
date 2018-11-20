@@ -12,6 +12,7 @@
         tools:context=".MapsActivity" />
 
     <LinearLayout
+        android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -49,8 +50,56 @@
             android:fontFamily="@font/fontawesomesolid"
             android:background="@color/green_dense"
             android:backgroundTint="@color/green_dense"
-            android:textSize="35dp"
+            android:textSize="25dp"
             android:text="@string/more_options"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:onClick="openOptions"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:backgroundTint="@color/white"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:elevation="5dp"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/service_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="true"
+            android:gravity="center|start"
+            android:text="@string/share_data"
+            android:textColor="@color/dark_grey"
+            android:layout_marginRight="100dp"
+            android:theme="@style/MyCheckBox2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:fontFamily="@font/fontawesomesolid"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:paddingTop="7dp"
+            android:text="@string/whats_this_icon"
+            android:textColor="@color/green_dense" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:foregroundGravity="right"
+            android:gravity="end"
+            android:paddingTop="7dp"
+            android:text="@string/whats_this"
+            android:textColor="@color/green_dense" />
+
+
     </LinearLayout>
 </RelativeLayout>

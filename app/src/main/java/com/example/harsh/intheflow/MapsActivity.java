@@ -5,9 +5,14 @@ package com.example.harsh.intheflow;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +20,9 @@ import android.provider.Settings;
 import android.transition.Explode;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -26,11 +34,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlay;
+import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -49,7 +64,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import cz.msebera.android.httpclient.Header;
 
@@ -62,6 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private GoogleMap mMap;
 
+    private static double LOWER_INTENSITY_LIMIT = 0;
+    private static double HIGHER_INTENSITY_LIMIT = 1;
     // Entry point to the places API
     private GeoDataClient mGeoDataClient;
     private PlaceDetectionClient mPlaceDetectionClient;
@@ -70,6 +89,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     public static Activity mapsActivity;
+
+    private LinearLayout layout_2, layout_1;
+
+    // Create a provider to build a heatmap tile
+    private HeatmapTileProvider mProvider;
+    private TileOverlay mOverlay; // Tileoverlay takes the heatmap tile and puts it on the map
+
+    // Defining colors for the heatmap tile
+    private final int[] colors = {
+            Color.rgb(0,132,255), // blue
+            Color.rgb(255,252,0), // yellow
+            Color.rgb(255,102,0), // orange
+            Color.rgb(255, 0, 0)    // red
+    };
+
+    private final float[] startPoints = {
+            0.25f, 0.50f, 0.75f, 1f
+    };
+
+    private final Gradient gradient = new Gradient(colors, startPoints);
+
+    // markers
+    private List<Marker> markerList = new ArrayList<>();
+
 
     private final LatLng mDefaultLocation = new LatLng(6.2306, 53.3498);
     private static final int DEFAULT_ZOOM = 15;
@@ -105,6 +148,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Construct a FusedLocationProvider
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        // Create the layout_2
+        layout_2 = findViewById(R.id.layout_2);
+        layout_1 = findViewById(R.id.layout_1);
 
         killOtherActivity();
 
@@ -117,6 +163,92 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
+        // Get the checkbox listener here
+        final CheckBox relaxedCheckBox = findViewById(R.id.Relaxed_CheckBox);
+        final CheckBox energeticCheckBox = findViewById(R.id.Energetic_CheckBox);
+
+        relaxedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    if (energeticCheckBox.isChecked()){
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    } else {
+                        HIGHER_INTENSITY_LIMIT = 0.5;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    }
+                    try {
+                        getLiveData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (energeticCheckBox.isChecked()){
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0.5;
+                    } else {
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    }
+                    try {
+
+                        getLiveData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        energeticCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    if (relaxedCheckBox.isChecked()){
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    } else {
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0.5;
+                    }
+                    try {
+                        getLiveData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (relaxedCheckBox.isChecked()){
+                        HIGHER_INTENSITY_LIMIT = 0.5;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    } else {
+                        HIGHER_INTENSITY_LIMIT = 1;
+                        LOWER_INTENSITY_LIMIT = 0;
+                    }
+                    try {
+                        getLiveData();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+
+    }
+
+    public void openOptions(View view){
+//        Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+        if (layout_2.getVisibility() == View.GONE){
+            // If the layout is hidden
+            layout_2.setVisibility(View.VISIBLE);
+            layout_2.animate().translationY(layout_1.getHeight());
+        } else {
+            layout_2.animate().translationY(0);
+            layout_2.setVisibility(View.GONE);
+        }
     }
 
     private void killOtherActivity(){
@@ -226,6 +358,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
          updateLocationUI();
          getDeviceLocation();
+
+         // Run the marker listener here
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getApplicationContext(),"marker is clicked",Toast.LENGTH_SHORT).show();
+                return false;
+
+            }
+        });
+
     }
 
     /**
@@ -271,6 +414,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                try {
+                    getLiveData();
+                } catch (JSONException e){
+                    Toast.makeText(getApplicationContext(),"JSON Exception",Toast.LENGTH_SHORT)
+                            .show();
+                    Log.e(TAG, "JSON Exception");
+                }
+
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -283,23 +434,103 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Checks the api on location change and updates the data
-     * @return
+     * Adds a heatmap to the map
+     * Currently only works with button click
      */
-    public void getLiveData(View view) throws JSONException {
+//    public void addHeatMap() throws InterruptedException{
+//        Toast.makeText(this,"Clicked in heatmap function",Toast.LENGTH_SHORT).show();
+//        List<WeightedLatLng> list = null;
+//        try{
+//            list = getLiveData();
+//        }catch (JSONException e){
+//            Log.e("Listerr","Error in reading json data for heatmap");
+//        }
+//        if (list != null){
+//            mProvider = new HeatmapTileProvider.Builder().weightedData(list).build();
+//            mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+//
+//        } else {
+//            Toast.makeText(getApplicationContext(),"Sleeping time",Toast.LENGTH_SHORT).show();
+//            TimeUnit.SECONDS.sleep(3);
+//            addHeatMap();
+//        }
+//    }
+
+    /**
+     * Checks the api on location change and updates the data
+     * @return list that contains the location with scores
+     */
+    public void getLiveData() throws JSONException {
         // Create a new array list
-        ArrayList<WeightedLatLng> list = new ArrayList<>();
+//        ArrayList<WeightedLatLng> list = new ArrayList<WeightedLatLng>();
 
         client.get(GET_URL, new AsyncHttpResponseHandler()  {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
+                    int drawable_icon;
                     getMapData = new JSONArray(new String(responseBody));
+                    ArrayList<WeightedLatLng> list = new ArrayList<WeightedLatLng>();
+
+                    if (getMapData!=null){
+                        if (markerList!=null){
+                            for (Marker m :
+                                    markerList) {
+                                if (m!=null) m.remove();
+                            }
+                        }
+
+                        for (int i=0; i < getMapData.length(); i++){
+                            JSONObject object = getMapData.getJSONObject(i);
+                            JSONObject fields = object.getJSONObject("fields");
+                            double lat = fields.getDouble("latitude");
+                            double lng = fields.getDouble("longitude");
+                            double intensity = fields.getDouble("score");
+                            if (intensity>0.5){
+                                drawable_icon = R.drawable.ic_stress_free_marker_energy;
+                            } else {
+                                drawable_icon = R.drawable.ic_stress_free_marker;
+                            }
+                            if ((intensity>=LOWER_INTENSITY_LIMIT) && (intensity <=
+                                    HIGHER_INTENSITY_LIMIT)){
+                                Log.i("Intensity_Readings",String.valueOf(intensity));
+                                WeightedLatLng weightedLatLng = new WeightedLatLng(new LatLng(lat,lng),intensity);
+                                list.add(weightedLatLng);
+                                markerList.add(mMap.addMarker(new MarkerOptions().position(new 
+                                        LatLng
+                                        (lat,
+                                        lng))
+                                        .icon(bitmapDescriptorFromVector(getApplicationContext(),
+                                                drawable_icon
+                                                ))));
+                            }
+
+                        }
+                        if (mOverlay != null){
+                            mOverlay.remove();
+                        }
+
+                        mProvider = new HeatmapTileProvider.Builder().weightedData(list).radius
+                                (50).gradient
+                                (gradient).build();
+
+                        mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+                    }
+//                    Toast.makeText(getApplicationContext(),"Successfull",Toast.LENGTH_SHORT).show();
                 } catch (JSONException e){
                     Log.i("StatusOfMapData","JSON error occurred");
                 }
 
 
+            }
+
+            private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+                Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+                vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+                Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+                vectorDrawable.draw(canvas);
+                return BitmapDescriptorFactory.fromBitmap(bitmap);
             }
 
             @Override
@@ -308,17 +539,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        if (getMapData != null){
-            for (int i=0; i < getMapData.length(); i++){
-                JSONObject object = getMapData.getJSONObject(i);
-                JSONObject fields = object.getJSONObject("fields");
-                double lat = fields.getDouble("latitude");
-                double lng = fields.getDouble("longitude");
-                double intensity = fields.getDouble("score");
-                list.add(new WeightedLatLng(new LatLng(lat,lng),intensity));
-            }
-        }
-        // Call this method as an internal call and return the list for generating the heatmap
+//        if (getMapData!=null){
+//            for (int i=0; i < getMapData.length(); i++){
+//                JSONObject object = getMapData.getJSONObject(i);
+//                JSONObject fields = object.getJSONObject("fields");
+//                double lat = fields.getDouble("latitude");
+//                double lng = fields.getDouble("longitude");
+//                double intensity = fields.getDouble("score");
+//                WeightedLatLng weightedLatLng = new WeightedLatLng(new LatLng(lat,lng),intensity);
+//                list.add(weightedLatLng);
+//            }
+//            return list;
+//        }
+//        // Call this method as an internal call and return the list for generating the heatmap
+//        return null;
     }
 
     @Override
