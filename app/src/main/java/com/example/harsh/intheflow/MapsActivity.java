@@ -403,12 +403,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (task.isSuccessful()){
                             // Set the maps camera on current location
                             mLastKnownLocation = task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()),DEFAULT_ZOOM
-                            ));
-                            // Run the getData function here
-                            updateLocationUI();
+                            try{
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(mLastKnownLocation.getLatitude(),
+                                                mLastKnownLocation.getLongitude()),DEFAULT_ZOOM
+                                ));
+                            } catch(NullPointerException e){
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(),"Please turn on your " +
+                                        "Location",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            } finally {
+                                // Run the getData function here
+                                updateLocationUI();
+                            }
                         } else {
                             Log.d("LocationResult","Current Location is null. Using defaults");
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation,
