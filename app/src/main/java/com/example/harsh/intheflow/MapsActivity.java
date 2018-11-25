@@ -169,6 +169,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Get the checkbox listener here
         final CheckBox relaxedCheckBox = findViewById(R.id.Relaxed_CheckBox);
         final CheckBox energeticCheckBox = findViewById(R.id.Energetic_CheckBox);
+        final CheckBox serviceCheckBox = findViewById(R.id.service_check);
+
+        serviceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (!b){
+                    stopService(new Intent(getApplicationContext(), SensorMonitorService.class));
+                } else {
+                    startService(new Intent(getApplicationContext(), SensorMonitorService.class));
+                }
+            }
+        });
 
         relaxedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
