@@ -273,7 +273,7 @@ public class SensorMonitorService extends Service {
             }
         }
         if (mLocationManager == null && mSensorManager == null){
-            Toast.makeText(this, "Stopped",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Data Sharing is stopped",Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(this, "Something went wrong",Toast.LENGTH_LONG).show();
