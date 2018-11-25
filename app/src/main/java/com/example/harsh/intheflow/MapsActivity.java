@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -38,6 +39,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
@@ -187,7 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 } else {
                     if (energeticCheckBox.isChecked()){
                         HIGHER_INTENSITY_LIMIT = 1;
-                        LOWER_INTENSITY_LIMIT = 0.5;
+                        LOWER_INTENSITY_LIMIT = 0.51;
                     } else {
                         HIGHER_INTENSITY_LIMIT = 1;
                         LOWER_INTENSITY_LIMIT = 0;
@@ -211,7 +213,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         LOWER_INTENSITY_LIMIT = 0;
                     } else {
                         HIGHER_INTENSITY_LIMIT = 1;
-                        LOWER_INTENSITY_LIMIT = 0.5;
+                        LOWER_INTENSITY_LIMIT = 0.51;
                     }
                     try {
                         getLiveData();
@@ -349,6 +351,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Style the map
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
+
+
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
@@ -363,7 +381,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Toast.makeText(getApplicationContext(),"marker is clicked",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"marker is clicked",Toast.LENGTH_SHORT).show();
                 return false;
 
             }
@@ -486,10 +504,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             double lat = fields.getDouble("latitude");
                             double lng = fields.getDouble("longitude");
                             double intensity = fields.getDouble("score");
+                            Log.i("Intensity_values",String.valueOf(intensity));
                             if (intensity>0.5){
-                                drawable_icon = R.drawable.ic_stress_free_marker_energy;
+                                drawable_icon = R.drawable.ic_stress_free_marker_energy_white;
                             } else {
-                                drawable_icon = R.drawable.ic_stress_free_marker;
+                                drawable_icon = R.drawable.ic_stress_free_marker_white;
                             }
                             if ((intensity>=LOWER_INTENSITY_LIMIT) && (intensity <=
                                     HIGHER_INTENSITY_LIMIT)){

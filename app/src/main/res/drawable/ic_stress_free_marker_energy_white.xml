@@ -32,25 +32,25 @@
       android:strokeWidth="1"
       android:pathData="M11.3,19.7m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"
       android:fillColor="#00000000"
-      android:strokeColor="#000000"/>
+      android:strokeColor="#FFFFFF"/>
   <path
       android:strokeWidth="1"
       android:pathData="M16.8,19.7m-1.2,0a1.2,1.2 0,1 1,2.4 0a1.2,1.2 0,1 1,-2.4 0"
       android:fillColor="#00000000"
-      android:strokeColor="#000000"/>
+      android:strokeColor="#FFFFFF"/>
   <path
       android:strokeWidth="1"
       android:pathData="M14,26.4c2,0 3.8,-1.4 4.4,-3.1H9.6C10.2,25.1 11.9,26.4 14,26.4z"
       android:fillColor="#00000000"
-      android:strokeColor="#000000"/>
+      android:strokeColor="#FFFFFF"/>
   <path
       android:strokeWidth="1"
       android:pathData="M13.6,34.1h0.8v40.3h-0.8z"
       android:fillColor="#FFFFFF"
-      android:strokeColor="#000000"/>
+      android:strokeColor="#FFFFFF"/>
   <path
       android:strokeWidth="1"
       android:pathData="M14,13.8c-4.4,0 -7.9,3.6 -7.9,7.9s3.6,7.9 7.9,7.9s7.9,-3.5 7.9,-7.9S18.4,13.8 14,13.8z"
       android:fillColor="#DD4B39"
-      android:strokeColor="#000000"/>
+      android:strokeColor="#FFFFFF"/>
 </vector>

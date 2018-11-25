@@ -18,10 +18,10 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_hero_personna_img_bg" />
-                                      <entry key="foregroundImage" value="C:\UCD\COMP47570\SSIDA\App\SVG\HeroPersonna.png" />
-                                      <entry key="foregroundLayerName" value="ic_img_hero_personna_fg" />
-                                      <entry key="outputName" value="ic_hero_personna_img" />
+                                      <entry key="backgroundLayerName" value="energy_marker_bg" />
+                                      <entry key="foregroundImage" value="C:\UCD\COMP47570\SSIDA\App\SVG\Stress_Free_ENergy_Marker.png" />
+                                      <entry key="foregroundLayerName" value="energy_marker_fg" />
+                                      <entry key="outputName" value="energy_marker_full" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -62,10 +62,13 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="00e676" />
-                            <entry key="outputName" value="ic_check_circle_black_24dp" />
+                            <entry key="height" value="75" />
+                            <entry key="outputName" value="ic_stress_free_marker_white" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\UCD\COMP47570\SSIDA\App\SVG\noun_Hammock_548209.svg" />
+                            <entry key="sourceFile" value="C:\UCD\COMP47570\SSIDA\App\SVG\Markers\Stress_Free_Marker_white.svg" />
+                            <entry key="width" value="31" />
                           </map>
                         </option>
                       </PersistentState>
