@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.transition.Explode;
 import android.util.Log;
@@ -248,6 +249,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mMap != null){
+                    if (mLocationPermissionGranted){
+                        try{
+                            getLiveData();
+                        } catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+            }
+        },30000);
 
 
 
@@ -502,7 +520,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void getLiveData() throws JSONException {
         // Create a new array list
 //        ArrayList<WeightedLatLng> list = new ArrayList<WeightedLatLng>();
-
+        //Toast.makeText(this,"Live data",Toast.LENGTH_SHORT).show();
         client.get(GET_URL, new AsyncHttpResponseHandler()  {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

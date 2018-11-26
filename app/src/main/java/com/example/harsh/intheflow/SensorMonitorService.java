@@ -278,6 +278,7 @@ public class SensorMonitorService extends Service {
         else {
             Toast.makeText(this, "Something went wrong",Toast.LENGTH_LONG).show();
         }
+        stopSelf();
 
     }
     private void initializeSensorManager() {
@@ -316,7 +317,7 @@ public class SensorMonitorService extends Service {
         params.put("gyroscope_z",gyroscope_values[2]);
         params.put("timestamp",currentCallTime);
         Log.i("Post ",String.valueOf(params));
-        client.get("https://ssida.herokuapp.com/rawdata/",params, new AsyncHttpResponseHandler(){
+        client.get("https://ssida.herokuapp.com/rawdata",params, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if(statusCode == 201) Toast.makeText(getApplicationContext(),"Success" , Toast.LENGTH_SHORT).show();
