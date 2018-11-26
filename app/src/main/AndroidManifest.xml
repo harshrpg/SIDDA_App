@@ -54,6 +54,10 @@
             android:name=".SensorMonitorService"
             android:enabled="true"
             android:exported="true"></service>
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
     </application>
 
 </manifest>

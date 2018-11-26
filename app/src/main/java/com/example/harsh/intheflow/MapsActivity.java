@@ -440,6 +440,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 ));
                             } catch(NullPointerException e){
                                 e.printStackTrace();
+                                Log.i("Ernestas APP",String.valueOf(e));
                                 Toast.makeText(getApplicationContext(),"Please turn on your " +
                                         "Location",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
